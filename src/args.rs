@@ -1,4 +1,4 @@
-use crate::{CsvOpts, GenPassOpts};
+use crate::{Base64Subcommand, CsvOpts, GenPassOpts};
 use clap::Parser;
 
 /// Simple CLI command to convert from one format to another
@@ -14,4 +14,6 @@ pub struct Args {
 pub enum Command {
     Csv(CsvOpts),
     GenPass(GenPassOpts),
+    #[command(subcommand)]
+    Base64(Base64Subcommand),
 }

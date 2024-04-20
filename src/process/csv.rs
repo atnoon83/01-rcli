@@ -1,3 +1,4 @@
+use crate::process::valid_file_path;
 use anyhow::Result;
 use clap::Parser;
 use csv::Reader;
@@ -52,14 +53,6 @@ impl Display for OutputFormat {
                 Self::Yaml => "yaml",
             }
         )
-    }
-}
-
-fn valid_file_path(s: &str) -> std::result::Result<String, &'static str> {
-    if std::path::Path::new(s).exists() {
-        Ok(s.into())
-    } else {
-        Err("File not found")
     }
 }
 

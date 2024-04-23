@@ -1,4 +1,4 @@
-use crate::process::valid_file_path;
+use crate::process::valid_file;
 use anyhow::Result;
 use clap::Parser;
 use csv::Reader;
@@ -10,7 +10,7 @@ use std::fmt::{Display, Formatter};
 #[clap(name = "CSV Options", author, version, about = "Convert CSV to JSON")]
 pub struct CsvOpts {
     /// Input CSV file
-    #[arg(short, long, value_parser = valid_file_path)]
+    #[arg(short, long, value_parser = valid_file)]
     pub input: String,
     /// Output JSON file, optionalq
     #[arg(short, long, default_value = "output")]

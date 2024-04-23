@@ -45,7 +45,7 @@ pub fn generate_password(
     uppercase: bool,
     numbers: bool,
     special: bool,
-) -> Result<()> {
+) -> Result<String> {
     let mut password = Vec::new();
     let mut chars = Vec::new();
     if lowercase {
@@ -73,8 +73,5 @@ pub fn generate_password(
 
     password.shuffle(&mut rand::thread_rng());
     let result = String::from_utf8(password)?;
-    println!("{}", result);
-    let score = zxcvbn::zxcvbn(result.as_str(), &[])?.score();
-    eprintln!("Password strength: {}", score);
-    Ok(())
+    Ok(result)
 }

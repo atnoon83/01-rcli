@@ -1,11 +1,13 @@
 mod base64;
 mod csv;
 mod genpass;
+mod serve;
 mod test;
 
 pub use base64::*;
 pub use csv::*;
 pub use genpass::*;
+pub use serve::*;
 use std::path::{Path, PathBuf};
 pub use test::*;
 

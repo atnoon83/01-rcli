@@ -1,4 +1,4 @@
-use crate::{Base64Subcommand, CsvOpts, GenPassOpts, TextSubcommand};
+use crate::{Base64Subcommand, CsvOpts, GenPassOpts, ServeOpts, TextSubcommand};
 use clap::Parser;
 
 /// Simple CLI command to convert from one format to another
@@ -18,4 +18,5 @@ pub enum Command {
     Base64(Base64Subcommand),
     #[command(subcommand)]
     Text(TextSubcommand),
+    Serve(ServeOpts),
 }

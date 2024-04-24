@@ -4,12 +4,14 @@ use base64::Engine;
 use clap::Parser;
 use rcli::{
     base64_decode, base64_encode, csv_to_json, generate_password, get_content, get_reader,
-    process_text_key_generate, process_text_sign, process_text_verify, Args, Base64Subcommand,
-    Command, TextSubcommand,
+    process_http_serve, process_text_key_generate, process_text_sign, process_text_verify, Args,
+    Base64Subcommand, Command, TextSubcommand,
 };
 use std::fs;
 
-fn main() -> Result<()> {
+#[tokio::main]
+async fn main() -> Result<()> {
+    tracing_subscriber::fmt::init();
     let args = Args::parse();
     match args.cmd {
         Command::Csv(opts) => {
@@ -61,6 +63,9 @@ fn main() -> Result<()> {
                 }
             }
         },
+        Command::Serve(opts) => {
+            process_http_serve(opts.dir, opts.port).await?;
+        }
     }
     Ok(())
 }

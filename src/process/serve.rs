@@ -1,26 +1,14 @@
+use crate::ServeState;
 use anyhow::Result;
 use axum::extract::{Path, State};
 use axum::http::StatusCode;
 use axum::routing::get;
 use axum::Router;
-use clap::Parser;
 use std::net::SocketAddr;
 use std::path::PathBuf;
 use std::sync::Arc;
 use tower_http::services::ServeDir;
 use tracing::{info, warn};
-
-#[derive(Debug, Parser)]
-pub struct ServeOpts {
-    #[arg(short, long, default_value = "9527")]
-    pub port: u16,
-    #[arg(short, long, default_value = ".")]
-    pub dir: PathBuf,
-}
-
-pub struct ServeState {
-    dir: PathBuf,
-}
 
 pub async fn process_http_serve(dir: PathBuf, port: u16) -> Result<()> {
     let addr = SocketAddr::from(([0, 0, 0, 0], port));

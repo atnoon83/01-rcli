@@ -1,55 +1,11 @@
-use super::{parse_text_sign_format, valid_file, verify_path};
-use crate::generate_password;
-use anyhow::Result;
-use clap::Parser;
-use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
-use rand::rngs::OsRng;
 use std::collections::HashMap;
 use std::io::Read;
-use std::path::PathBuf;
 
-#[derive(Debug, Parser)]
-pub enum TextSubcommand {
-    Sign(TextSignOpts),
-    Verify(TextVerifyOpts),
-    Generate(KeyGenerateOpts),
-}
+use anyhow::Result;
+use ed25519_dalek::{Signature, Signer, SigningKey, Verifier, VerifyingKey};
+use rand::rngs::OsRng;
 
-#[derive(Debug, Parser)]
-pub struct TextSignOpts {
-    #[arg(short, long, default_value = "-", value_parser = valid_file)]
-    pub input: String,
-    #[arg(short, long, value_parser = valid_file)]
-    pub key: String,
-    #[arg(short, long, default_value = "blake3")]
-    pub format: TextSignFormat,
-}
-
-#[derive(Debug, Parser)]
-pub struct TextVerifyOpts {
-    #[arg(short, long, default_value = "-", value_parser = valid_file)]
-    pub input: String,
-    #[arg(short, long, value_parser = valid_file)]
-    pub key: String,
-    #[arg(short, long)]
-    pub sig: String,
-    #[arg(short, long, default_value = "blake3")]
-    pub format: TextSignFormat,
-}
-
-#[derive(Debug, Parser)]
-pub struct KeyGenerateOpts {
-    #[arg(long, default_value = "blake3", value_parser = parse_text_sign_format)]
-    pub format: TextSignFormat,
-    #[arg(short, long, value_parser = verify_path)]
-    pub output_path: PathBuf,
-}
-
-#[derive(Debug, Copy, Clone)]
-pub enum TextSignFormat {
-    Blake3,
-    Ed25519,
-}
+use crate::{generate_password, TextSignFormat};
 
 impl std::str::FromStr for TextSignFormat {
     type Err = anyhow::Error;
@@ -221,8 +177,9 @@ pub fn process_text_key_generate(format: TextSignFormat) -> Result<HashMap<&'sta
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use base64::{engine::general_purpose::URL_SAFE_NO_PAD, Engine};
+
+    use super::*;
 
     const KEY: &[u8] = include_bytes!("../../fixtures/blake3.txt");
 

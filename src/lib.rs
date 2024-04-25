@@ -1,5 +1,5 @@
-mod args;
+mod cli;
 mod process;
 
-pub use args::*;
+pub use cli::*;
 pub use process::*;

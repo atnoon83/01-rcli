@@ -1,5 +1,4 @@
 use anyhow::Result;
-use clap::Parser;
 use rand::prelude::SliceRandom;
 
 const UPPER: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -7,26 +6,7 @@ const LOWER: &[u8] = b"abcdefghijklmnopqrstuvwxyz";
 const NUMBER: &[u8] = b"0123456789";
 const SPECIAL: &[u8] = b"!@#$%^&*()_+-=";
 
-#[derive(Debug, Parser)]
-pub struct GenPassOpts {
-    /// Length of the password
-    #[arg(long, default_value_t = 12, value_parser = parse_length)]
-    pub length: u8,
-    /// Use lowercase letters
-    #[arg(short, long, action = clap::ArgAction::Set, default_value_t = true)]
-    pub lowercase: bool,
-    /// Use uppercase letters
-    #[arg(short, long, action = clap::ArgAction::Set, default_value_t = true)]
-    pub uppercase: bool,
-    /// Use numbers
-    #[arg(short, long, action = clap::ArgAction::Set, default_value_t = true)]
-    pub numbers: bool,
-    /// Use special characters
-    #[arg(short, long, action = clap::ArgAction::Set, default_value_t = true)]
-    pub special: bool,
-}
-
-fn parse_length(s: &str) -> std::result::Result<u8, &'static str> {
+pub fn parse_length(s: &str) -> std::result::Result<u8, &'static str> {
     match s.parse::<u8>() {
         Ok(n) => {
             if n < 4 {

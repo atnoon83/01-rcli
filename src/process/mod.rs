@@ -4,6 +4,7 @@ mod genpass;
 mod serve;
 mod test;
 
+use crate::TextSignFormat;
 pub use base64::*;
 pub use csv::*;
 pub use genpass::*;

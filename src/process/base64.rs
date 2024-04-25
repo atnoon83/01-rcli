@@ -1,40 +1,12 @@
-use super::get_reader;
-use crate::process::valid_file;
+use std::io::Read;
+
 use anyhow::Result;
 use base64::engine::general_purpose::{STANDARD, URL_SAFE_NO_PAD};
 use base64::Engine;
-use clap::Parser;
-use std::io::Read;
 
-#[derive(Debug, Parser)]
-pub enum Base64Subcommand {
-    Encode(EncodeOpts),
-    Decode(DecodeOpts),
-}
+use crate::Base64Format;
 
-#[derive(Debug, Parser)]
-#[clap(name = "base64 encode", author, version, about = "Base64 encode")]
-pub struct EncodeOpts {
-    #[arg(short, long, default_value = "-", value_parser = valid_file)]
-    pub input: String,
-    #[arg(short, long, default_value = "standard")]
-    pub format: Base64Format,
-}
-
-#[derive(Debug, Parser)]
-#[clap(name = "base64 decode", author, version, about = "Base64 decode")]
-pub struct DecodeOpts {
-    #[arg(short, long, default_value = "-", value_parser = valid_file)]
-    pub input: String,
-    #[arg(short, long, default_value = "standard")]
-    pub format: Base64Format,
-}
-
-#[derive(Debug, Copy, Clone)]
-pub enum Base64Format {
-    Standard,
-    UrlSafe,
-}
+use super::get_reader;
 
 impl std::str::FromStr for Base64Format {
     type Err = &'static str;
